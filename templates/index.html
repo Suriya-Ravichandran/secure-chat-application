@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<!--client template-->
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Simple Chat Application</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js"></script>
+</head>
+<body>
+   <!--this chat-container--> 
+    <div id="chat-container">
+        <div id="user-details">
+            <span id="username">Welcome, {{ username }}!</span>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+        <div id="room-details">
+            <label for="room">Room:</label>
+            <input type="text" id="room" placeholder="Enter room name">
+            <button id="join-btn">Join</button>
+        </div>
+        <div id="messages">
+            <ul id="message-list"></ul>
+        </div>
+        <div id="input">
+            <input type="text" id="message-input" placeholder="Type your message...">
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+    <!--js code -->
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+        var messageList = document.getElementById('message-list');
+        var messageInput = document.getElementById('message-input');
+        var sendBtn = document.getElementById('send-btn');
+        var joinBtn = document.getElementById('join-btn');
+        var roomInput = document.getElementById('room');
+        var username = "{{ username }}";
+
+        socket.on('connect', function() {
+            socket.emit('join', {room: '', username: username});
+        });
+
+        socket.on('message', function(data) {
+            var li = document.createElement('li');
+            li.innerHTML = '<strong>' + data.username + ':</strong> ' + data.message;
+            messageList.appendChild(li);
+        });
+
+        socket.on('system_message', function(message) {
+            var li = document.createElement('li');
+            li.innerHTML = '<em class="system-message">' + message + '</em>';
+            messageList.appendChild(li);
+        });
+
+        sendBtn.addEventListener('click', function() {
+            var room = roomInput.value;
+            var message = messageInput.value;
+            if (room.trim() !== '' && message.trim() !== '') {
+                socket.emit('message', {room: room, message: message});
+                messageInput.value = '';
+            }
+        });
+
+        joinBtn.addEventListener('click', function() {
+            var room = roomInput.value;
+            if (room.trim() !== '') {
+                socket.emit('leave', {room: ''});
+                socket.emit('join', {room: room});
+                messageList.innerHTML = '';
+            }
+        });
+    </script>
+</body>
+</html>

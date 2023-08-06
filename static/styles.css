@@ -1,0 +1,62 @@
+/* styles.css */
+
+/* Body background color */
+body {
+    background-color: #95d2dd;
+  }
+  
+  /* Chat container */
+  #chat-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* User details section */
+  #user-details {
+    text-align: right;
+  }
+  
+  /* Chat messages list */
+  #message-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  #message-list li {
+    margin-bottom: 10px;
+  }
+  
+  /* Input field and buttons */
+  #input {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  #message-input {
+    flex: 1;
+    padding: 5px;
+  }
+  
+  #send-btn {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* Room details section */
+  #room-details {
+    margin-bottom: 10px;
+  }
+  
+  /* System message style */
+  .system-message {
+    color: #666666;
+    font-style: italic;
+  }
