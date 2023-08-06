@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!--client template-->
 <html>
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
@@ -7,7 +6,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js"></script>
 </head>
 <body>
-   <!--this chat-container--> 
     <div id="chat-container">
         <div id="user-details">
             <span id="username">Welcome, {{ username }}!</span>
@@ -18,15 +16,15 @@
             <input type="text" id="room" placeholder="Enter room name">
             <button id="join-btn">Join</button>
         </div>
-        <div id="messages">
+        <div id="messages" style="display: none;">
             <ul id="message-list"></ul>
-        </div>
-        <div id="input">
-            <input type="text" id="message-input" placeholder="Type your message...">
-            <button id="send-btn">Send</button>
+            <div id="input">
+                <input type="text" id="message-input" placeholder="Type your message...">
+                <button id="send-btn">Send</button>
+            </div>
         </div>
     </div>
-    <!--js code -->
+    
     <script>
         var socket = io.connect('http://' + document.domain + ':' + location.port);
         var messageList = document.getElementById('message-list');
@@ -67,6 +65,7 @@
                 socket.emit('leave', {room: ''});
                 socket.emit('join', {room: room});
                 messageList.innerHTML = '';
+                document.getElementById('messages').style.display = 'block';
             }
         });
     </script>
